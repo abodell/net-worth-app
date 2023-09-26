@@ -6,7 +6,7 @@ const plaidClient = new PlaidApi(
         baseOptions: {
             headers: {
                 'PLAID-CLIENT-ID': process.env.PLAID_CLIENT_ID,
-                'PLAID-SECRET': PlaidEnvironments[process.env.PLAID_ENV] == 'development' ? process.env.PLAID_SECRET_DEVELOPMENT : process.env.PLAID_SECRET_SANDBOX
+                'PLAID-SECRET': process.env.PLAID_ENV == 'development' ? process.env.PLAID_SECRET_DEVELOPMENT : process.env.PLAID_SECRET_SANDBOX
             }
         }
     })
