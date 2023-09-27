@@ -2,6 +2,7 @@ import axios from 'axios';
 import { usePlaidLink } from 'react-plaid-link';
 import { useState, useEffect, useCallback } from 'react'
 import PlaidAuth from '../components/PlaidAuth'
+import Header from '@/components/Header';
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -33,8 +34,11 @@ export default function Home() {
   });
 
   return publicToken ? (<PlaidAuth publicToken={publicToken} />) : (
-    <button onClick={() => open()} disabled={!ready}>
+    <>
+    <Header />
+    <button className="bg-white dark:bg-red-800" onClick={() => open()} disabled={!ready}>
       Connect a bank account
     </button>
+    </>
   );
 }
