@@ -1,23 +1,31 @@
 import { useEffect, useState } from 'react'
+import { IconButton } from 'rsuite'
 import Link from 'next/link'
 import { AiOutlineGithub } from 'react-icons/ai';
+import { HiOutlineLightBulb } from 'react-icons/hi'
+import { MdDarkMode } from 'react-icons/md'
 import { useTheme } from 'next-themes'
 
 export default function Header() {
     const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect( () => {
+        setMounted(true);
+    }, [])
 
     return (
-        <div className="max-w-6xl mx-auto px-4 py-10 md:py-20">
+        <div className="max-w-7xl mx-auto px-2 py-10 md:py-20">
             <div className="flex md:flex-row justify-between items-center">
                 <Link href="/">
-                    <h1 className="font-semibold text-xl dark:text-gray-100">
-                        Net Worth Tracker
+                    <h1 className="break-all font-semibold text-xl dark:text-gray-100">
+                        WealthWise
                     </h1>
                 </Link>
 
-                <div className='space-x-8 hidden md:block'>
-                    <h1 className="font-semibold text-xl dark:text-gray-100">
-                        Login Button
+                <div>
+                    <h1 className="font-semibold mr-10 text-xl dark:text-gray-100">
+                        Login
                     </h1>
                 </div>
 
@@ -27,9 +35,11 @@ export default function Header() {
                             size="1.75em"
                         />
                     </a>
-                    <button>
-                        
-                    </button>
+                    { mounted && 
+                    <IconButton 
+                        icon={theme === 'dark' ? (<HiOutlineLightBulb size="1.75em" color="#fcd34d"/>) : (<MdDarkMode size="1.75em" color="#1f2937"/>)}
+                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                    /> }
                 </div>
             </div>
         </div>
