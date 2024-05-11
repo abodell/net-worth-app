@@ -4,7 +4,8 @@ const Button = ({
     fullWidth,
     onClick,
     large,
-    disabled, outline
+    disabled, 
+    outline
 }) => {
     return (
         <button
@@ -19,9 +20,9 @@ const Button = ({
         transition
         border-2
         ${fullWidth ? 'w-full' : 'w-fit'}
-        ${secondary ? 'bg-white' : 'bg-sky-400'}
+        ${secondary ? 'bg-white' : 'bg-black'}
         ${secondary ? 'text-black' : 'text-white'}
-        ${secondary ? 'border-black' : 'border-sky-400'}
+        ${secondary ? 'border-black' : 'border-white'}
         ${large ? 'text-xl' : 'text-md'}
         ${large ? 'px-5' : 'px-4'}
         ${large ? 'py-3' : 'py-2'}

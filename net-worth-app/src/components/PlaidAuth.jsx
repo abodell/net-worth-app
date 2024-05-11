@@ -3,6 +3,7 @@ import axios from 'axios';
 
 function PlaidAuth( { publicToken } ) {
     const [account, setAccount] = useState();
+
     useEffect( () => {
         async function fetchData() {
             const accessToken = await axios.post('/api/exchange-public-token', {public_token: publicToken});
@@ -12,12 +13,11 @@ function PlaidAuth( { publicToken } ) {
         fetchData();
     }, []);
 
-    return account && (
+    return account && 
         <>
             <p>Account number: {account.account}</p>
             <p>Routing number: {account.routing}</p>
         </>
-    )
 }
 
 export default PlaidAuth;

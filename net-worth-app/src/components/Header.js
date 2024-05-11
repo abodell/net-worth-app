@@ -1,36 +1,46 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { IconButton } from 'rsuite'
 import Link from 'next/link'
+import Button from '@/components/Button'
 import { AiOutlineGithub } from 'react-icons/ai';
 import { HiOutlineLightBulb } from 'react-icons/hi'
-import { MdDarkMode } from 'react-icons/md'
+import { MdDarkMode, MdLogin } from 'react-icons/md'
 import { useTheme } from 'next-themes'
+import useLoginModal from '@/hooks/useLoginModal';
+import useCurrentUser from '@/hooks/useCurrentUser';
 
 export default function Header() {
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
+    const { data: currentUser } = useCurrentUser();
+    const loginModal = useLoginModal();
 
     useEffect( () => {
         setMounted(true);
     }, [])
 
+    const onClick = useCallback( () => {
+        if (!currentUser) {
+            loginModal.onOpen();
+        }
+    }, [loginModal])
+
     return (
         <div className="max-w-7xl mx-auto px-2 py-10 md:py-20">
             <div className="flex md:flex-row justify-between items-center">
+            {/* create a button component for login/register, etc and delete div below */}
+                <div>
+                    <Button label={currentUser ? "Sign Out" : "Login"} secondary={theme === 'dark'} onClick={onClick}/>
+                </div>
+
                 <Link href="/">
                     <h1 className="break-all font-semibold text-xl dark:text-gray-100">
-                        WealthWise
+                        Wealth Wise
                     </h1>
                 </Link>
 
-                <div>
-                    <h1 className="font-semibold mr-10 text-xl dark:text-gray-100">
-                        Login
-                    </h1>
-                </div>
-
                 <div className="space-x-4 flex flex-row items-center">
-                    <a href='https://github.com/abodell/net-worth-app'>
+                    <a href='https://github.com/abodell'>
                         <AiOutlineGithub 
                             size="1.75em"
                         />
