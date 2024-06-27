@@ -30,11 +30,11 @@ export default function Header() {
             <div className="flex md:flex-row justify-between items-center">
             {/* create a button component for login/register, etc and delete div below */}
                 <div>
-                    <Button label={currentUser ? "Sign Out" : "Login"} secondary={theme === 'dark'} onClick={onClick}/>
+                    { mounted && <Button label={currentUser ? "Sign Out" : "Login"} secondary={theme === 'dark'} onClick={onClick}/> }
                 </div>
 
                 <Link href="/">
-                    <h1 className="break-all font-semibold text-xl dark:text-gray-100">
+                    <h1 className="break-all font-semibold text-4xl dark:text-gray-100">
                         Wealth Wise
                     </h1>
                 </Link>
