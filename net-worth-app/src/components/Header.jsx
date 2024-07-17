@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Button from '@/components/Button'
 import { AiOutlineGithub } from 'react-icons/ai';
 import { HiOutlineLightBulb } from 'react-icons/hi'
-import { MdDarkMode, MdLogin } from 'react-icons/md'
+import { MdDarkMode } from 'react-icons/md'
 import { useTheme } from 'next-themes'
 import useLoginModal from '@/hooks/useLoginModal';
 import useCurrentUser from '@/hooks/useCurrentUser';
@@ -28,13 +28,13 @@ export default function Header() {
     return (
         <div className="max-w-7xl mx-auto px-2 py-10 md:py-20">
             <div className="flex md:flex-row justify-between items-center">
-            {/* create a button component for login/register, etc and delete div below */}
+            {/* alternate between Login and Connect Bank Account (check on multiple accounts) */}
                 <div>
                     { mounted && <Button label={currentUser ? "Sign Out" : "Login"} secondary={theme === 'dark'} onClick={onClick}/> }
                 </div>
 
                 <Link href="/">
-                    <h1 className="break-all font-semibold text-4xl dark:text-gray-100">
+                    <h1 className="break-all font-semibold text-4xl">
                         Wealth Wise
                     </h1>
                 </Link>

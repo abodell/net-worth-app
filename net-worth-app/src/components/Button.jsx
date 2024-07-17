@@ -17,7 +17,6 @@ const Button = ({
         rounded-full
         font-semibold
         hover:opacity-80
-        transition
         border-2
         ${fullWidth ? 'w-full' : 'w-fit'}
         ${secondary ? 'bg-white' : 'bg-black'}
