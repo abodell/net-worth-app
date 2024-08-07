@@ -23,7 +23,6 @@ import {
 const LineChart = ({data}) => {
     return (
         <div>
-            <h2 className="text-center">Net Worth</h2>
             <Line 
                 data={data}
                 options={{
