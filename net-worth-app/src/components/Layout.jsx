@@ -3,13 +3,11 @@ import axios from 'axios';
 import { usePlaidLink } from 'react-plaid-link';
 import { useState, useEffect, useCallback } from 'react'
 import PlaidAuth from '../components/PlaidAuth'
-import { useTheme } from 'next-themes'
 import { TypeAnimation } from 'react-type-animation';
 
 const Layout = ({ children }) => {
     const [linkToken, setLinkToken] = useState();
     const [publicToken, setPublicToken] = useState();
-    const { theme, setTheme } = useTheme();
 
     const onSuccess = useCallback(async (publicToken) => {
         setPublicToken(publicToken);
@@ -42,11 +40,11 @@ const Layout = ({ children }) => {
                 <TypeAnimation
                 sequence={[
                     'Track Your Growth',
-                    1000,
+                    1500,
                     'Keep Tabs on Your Net Worth',
-                    1000,
+                    1500,
                     'Find your path to Financial Freedom',
-                    1000
+                    1500
                 ]}
                 speed={50}
                 style={{ fontsize: '2em' }}
