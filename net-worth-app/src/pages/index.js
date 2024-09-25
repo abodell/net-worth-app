@@ -1,6 +1,5 @@
 import axios from 'axios';
 import LineChart from '@/components/LineChart';
-import { chartData } from '@/utils/chartData';
 import { usePlaidLink } from 'react-plaid-link';
 import { useState, useEffect, useCallback } from 'react'
 import PlaidAuth from '../components/PlaidAuth'
@@ -48,7 +47,7 @@ export default function Home() {
     <Header />
     <Layout>
       { /* get chart to render */ }
-      <LineChart data={chartData}></LineChart>
+      <LineChart secondary={theme === "dark"}></LineChart>
     </Layout>
     {mounted && <Button label="Connect your Bank Account" secondary={theme === 'dark'} onClick={open}/>}
     </>

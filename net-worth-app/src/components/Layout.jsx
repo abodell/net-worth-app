@@ -32,7 +32,7 @@ const Layout = ({ children }) => {
     });
 
     return (
-        <div className="max-w-7xl mx-auto px-2 py-10 md:py-20">
+        <div className="max-w-7xl mx-auto px-2 py-5 md:py-10 flex flex-col align-middle gap-12">
         { /*
         - Look into connecting two accounts
         */}
@@ -52,7 +52,7 @@ const Layout = ({ children }) => {
                 repeat={Infinity}
                 />
             </div>
-            <div> {children} </div>
+            <div className="w-5/6 mx-auto"> {children} </div>
         </div>
     )
 }
