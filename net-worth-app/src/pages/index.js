@@ -6,6 +6,7 @@ import PlaidAuth from '../components/PlaidAuth'
 import Header from '@/components/Header';
 import Button from '@/components/Button';
 import Layout from '@/components/Layout';
+import useCurrentUser from '@/hooks/useCurrentUser';
 import { useTheme } from 'next-themes'
 import { Inter } from 'next/font/google'
 
@@ -16,13 +17,31 @@ export default function Home() {
   const [publicToken, setPublicToken] = useState();
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
-
-  { /* create a component to house the plaid code */ }
+  const { data: currentUser } = useCurrentUser();
+  /* 
+  I need to check if the currentUser has an access token, if it does we render net worth / chart rather than the button
+  */
 
   const onSuccess = useCallback(async (publicToken) => {
-    setPublicToken(publicToken);
-    const accessToken = await axios.post('/api/exchange-public-token', {public_token: publicToken});
-  });
+    try {
+      setPublicToken(publicToken);
+      const accessToken = await axios.post('/api/exchange-public-token', {public_token: publicToken});
+
+      const data = await axios.post('/api/plaid-auth', {
+        access_token: accessToken.data.access_token,
+      });
+      setPlaidData(data)
+      // save the access token
+      await axios.put('/api/save-access-token', {
+        access_token: accessToken.data.access_token,
+        user_id: currentUser.id
+      })
+
+    }
+    catch (error) {
+      console.error(error)
+    }
+  }, [currentUser]);
 
   useEffect( () => {
     setMounted(true)
@@ -42,14 +61,13 @@ export default function Home() {
     onSuccess
   });
 
-  return publicToken ? (<PlaidAuth publicToken={publicToken} />) : (
+  return (
     <>
     <Header />
     <Layout>
-      { /* get chart to render */ }
-      <LineChart secondary={theme === "dark"}></LineChart>
+      {currentUser ? <h1 className="text-center text-xl font-semibold">Welcome, {currentUser.name}</h1> : null}
+      {currentUser ? <Button label="Connect your Bank Account" secondary={theme === 'dark'} onClick={open}/> : <LineChart secondary={theme === "dark"}></LineChart>}
     </Layout>
-    {mounted && <Button label="Connect your Bank Account" secondary={theme === 'dark'} onClick={open}/>}
     </>
   );
 }

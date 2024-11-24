@@ -1,4 +1,8 @@
 import { plaidClient } from '../../lib/plaidClient'
+import db from '@/lib/prismadb'
+/*
+Accepts an access token
+*/
 
 export default async function handler(req, res) {
     if (req.method !== "POST") {
@@ -7,12 +11,13 @@ export default async function handler(req, res) {
     }
     try {
         const accessToken = req.body.access_token;
+
         const plaidRequest = {
             access_token: accessToken
         };
         const plaidResponse = await plaidClient.authGet(plaidRequest);
-        res.status(200).json(plaidResponse.data);
+        return res.status(200).json(plaidResponse.data);
     } catch (err) {
-        res.status(500).send(err);
+        return res.status(500).send(err);
     }
 }

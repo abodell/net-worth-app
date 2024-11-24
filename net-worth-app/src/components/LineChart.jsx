@@ -26,7 +26,7 @@ const LineChart = ({secondary}) => {
     const themeColor = secondary ? "#D3D3D3" : "black"
 
     return (
-        <div>
+        <div className="w-full h-full">
             <Line 
                 data={createChartData()}
                 options={{

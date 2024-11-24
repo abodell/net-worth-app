@@ -6,6 +6,7 @@ import { AiOutlineGithub } from 'react-icons/ai';
 import { HiOutlineLightBulb } from 'react-icons/hi'
 import { MdDarkMode } from 'react-icons/md'
 import { useTheme } from 'next-themes'
+import { signOut } from 'next-auth/react'
 import useLoginModal from '@/hooks/useLoginModal';
 import useCurrentUser from '@/hooks/useCurrentUser';
 
@@ -22,9 +23,10 @@ export default function Header() {
     const onClick = useCallback( () => {
         if (!currentUser) {
             loginModal.onOpen();
+        } else  {
+            signOut();
         }
     }, [loginModal])
-
     return (
         <div className="max-w-7xl mx-auto px-2 py-10 md:py-20">
             <div className="flex md:flex-row justify-between items-center">
