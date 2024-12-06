@@ -1,5 +1,4 @@
 import { plaidClient } from '../../lib/plaidClient'
-import db from '@/lib/prismadb'
 /*
 Accepts an access token
 */

@@ -18,6 +18,8 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
   const { data: currentUser } = useCurrentUser();
+  const [hasAccessToken, setHasAccessToken] = useState(false)
+  const [netWorthData, setNetWorthData] = useState(null);
   /* 
   I need to check if the currentUser has an access token, if it does we render net worth / chart rather than the button
   */
@@ -30,8 +32,7 @@ export default function Home() {
       const data = await axios.post('/api/plaid-auth', {
         access_token: accessToken.data.access_token,
       });
-      setPlaidData(data)
-      // save the access token
+      // save the access token when the user connects
       await axios.put('/api/save-access-token', {
         access_token: accessToken.data.access_token,
         user_id: currentUser.id
@@ -54,7 +55,24 @@ export default function Home() {
       }
     }
     fetch();
-  }, []);
+
+    async function checkAccessToken() {
+      if (currentUser) {
+        setHasAccessToken(currentUser.hasAccessToken)
+      }
+    }
+    checkAccessToken();
+
+    async function saveUserMoneyData() {
+      // save net worth info to database
+      if (currentUser) {
+        const res = await axios.post('/api/save-account-data', {
+          id: currentUser.id
+        });
+      }
+    }
+    saveUserMoneyData();
+  }, [currentUser]);
 
   const {open, ready} = usePlaidLink({
     token: linkToken, 
@@ -66,7 +84,7 @@ export default function Home() {
     <Header />
     <Layout>
       {currentUser ? <h1 className="text-center text-xl font-semibold">Welcome, {currentUser.name}</h1> : null}
-      {currentUser ? <Button label="Connect your Bank Account" secondary={theme === 'dark'} onClick={open}/> : <LineChart secondary={theme === "dark"}></LineChart>}
+      {currentUser && hasAccessToken ?  <LineChart secondary={theme === "dark"}></LineChart> : <Button label="Connect your Bank Account" secondary={theme === 'dark'} onClick={open}/>}
     </Layout>
     </>
   );
