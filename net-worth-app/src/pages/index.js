@@ -79,7 +79,7 @@ export default function Home() {
       }
     }
     saveUserAccountData();
-  }, [currentUser]);
+  }, [currentUser, linkToken]);
 
   const {open, ready} = usePlaidLink({
     token: linkToken, 
@@ -91,7 +91,7 @@ export default function Home() {
     <Header />
     <Layout>
       {currentUser ? <h1 className="text-center text-xl font-semibold">Welcome, {currentUser.name}</h1> : null}
-      {currentUser && hasAccessToken ?  <LineChart secondary={theme === "dark"}></LineChart> : <Button label="Connect your Bank Account" secondary={theme === 'dark'} onClick={open}/>}
+      {currentUser && hasAccessToken ?  <LineChart secondary={theme === "dark"}></LineChart> : currentUser ? <Button label="Connect your Bank Account" secondary={theme === 'dark'} onClick={open}/> : <LineChart secondary={theme === "dark"}></LineChart>}
     </Layout>
     </>
   );
