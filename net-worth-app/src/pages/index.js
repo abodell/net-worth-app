@@ -69,7 +69,6 @@ export default function Home() {
         const res = await axios.post('/api/save-account-data', {
           id: currentUser.id
         });
-        console.log(res)
       }
     }
     saveUserAccountData();
