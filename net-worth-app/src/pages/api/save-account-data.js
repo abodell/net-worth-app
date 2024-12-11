@@ -39,14 +39,21 @@ export default async function handler(req, res) {
             access_token: accessToken
         }
         const plaidResponse = await plaidClient.accountsBalanceGet(plaidReq)
-        console.log(plaidResponse.data.accounts)
+
+        for (let account of plaidResponse.data.accounts) {
+            const insert_account = await db.account.create({
+                data: {
+                    userID: id,
+                    name: account.name,
+                    type: account.subtype,
+                    balance: account.balances.current
+                }
+            });
+
+            return res.status(200).json(insert_account)
+        }
+
     } catch (err) {
         return res.status(500).send(err)
     }
-
-    // loop through the accounts and save the Account Name and the current balance
-    // we need to add an accounts model to our schema
-    // then we will save each account and the name, connected to the user, the current value of the account, and the time it was fetched
-    // this way we can pull value for each account, and show total accounts value
-
 }

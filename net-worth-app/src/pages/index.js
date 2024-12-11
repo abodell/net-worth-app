@@ -63,15 +63,16 @@ export default function Home() {
     }
     checkAccessToken();
 
-    async function saveUserMoneyData() {
+    async function saveUserAccountData() {
       // save net worth info to database
       if (currentUser) {
         const res = await axios.post('/api/save-account-data', {
           id: currentUser.id
         });
+        console.log(res)
       }
     }
-    saveUserMoneyData();
+    saveUserAccountData();
   }, [currentUser]);
 
   const {open, ready} = usePlaidLink({
