@@ -41,21 +41,12 @@ export default async function handler(req, res) {
         const plaidResponse = await plaidClient.accountsBalanceGet(plaidReq)
 
         for (let account of plaidResponse.data.accounts) {
-            const insert_account = await db.account.upsert({
-                where: {
-                    userID_name: {
-                        userID: id,
-                        name: account.name
-                    },
-                },
-                create: {
+            const insert_account = await db.account.create({
+                data: {
                     userID: id,
                     name: account.name,
                     balance: account.balances.current,
                     type: account.subtype
-                },
-                update: {
-                    balance: account.balances.current
                 }
             });
 
