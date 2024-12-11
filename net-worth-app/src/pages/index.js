@@ -1,7 +1,7 @@
 import axios from 'axios';
 import LineChart from '@/components/LineChart';
 import { usePlaidLink } from 'react-plaid-link';
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import PlaidAuth from '../components/PlaidAuth'
 import Header from '@/components/Header';
 import Button from '@/components/Button';
@@ -23,6 +23,8 @@ export default function Home() {
   /* 
   I need to check if the currentUser has an access token, if it does we render net worth / chart rather than the button
   */
+
+  const linkTokenFetched = useRef(false);
 
   const onSuccess = useCallback(async (publicToken) => {
     try {
@@ -46,15 +48,18 @@ export default function Home() {
 
   useEffect( () => {
     setMounted(true)
-    async function fetch() {
-      try {
-        const response = await axios.post('/api/create-link-token');
-        setLinkToken(response.data.link_token);
-      } catch (err) {
-        console.log(err.response);
+    async function getLinkToken() {
+      if (!linkTokenFetched.current) {
+        try {
+          const response = await axios.post('/api/create-link-token');
+          setLinkToken(response.data.link_token);
+          linkTokenFetched.current = true
+        } catch (err) {
+          console.log(err.response);
+        }
       }
     }
-    fetch();
+    getLinkToken();
 
     async function checkAccessToken() {
       if (currentUser) {
@@ -65,10 +70,12 @@ export default function Home() {
 
     async function saveUserAccountData() {
       // save net worth info to database
-      if (currentUser) {
+      if (currentUser && !localStorage.getItem('netWorthDataSaved', true)) {
         const res = await axios.post('/api/save-account-data', {
           id: currentUser.id
         });
+        setNetWorthData(res.data)
+        localStorage.setItem('netWorthDataSaved', 'true');
       }
     }
     saveUserAccountData();

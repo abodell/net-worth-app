@@ -45,7 +45,7 @@ export default async function handler(req, res) {
                 data: {
                     userID: id,
                     name: account.name,
-                    balance: account.balances.current,
+                    balance: Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000, // we will just save a random number since we're using Plaid Sandbox
                     type: account.subtype
                 }
             });

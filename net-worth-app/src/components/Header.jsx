@@ -25,6 +25,7 @@ export default function Header() {
             loginModal.onOpen();
         } else  {
             signOut();
+            localStorage.clear();
         }
     }, [loginModal])
     return (
