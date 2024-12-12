@@ -85,7 +85,8 @@ export default function Home() {
     token: linkToken, 
     onSuccess
   });
-
+  // next thing to work on will be retrieving real user data and populating the chart with that if someone is signed in
+  
   return (
     <>
     <Header />
