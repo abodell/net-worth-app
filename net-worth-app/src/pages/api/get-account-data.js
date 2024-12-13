@@ -34,13 +34,25 @@ export default async function handler(req, res) {
                 createdAt: true
             },
             orderBy: {
-                createdAt: 'desc'
+                createdAt: 'asc'
             }
         });
 
-        return res.status(200).json(data);
+        // Group the data by the date, ignoring the time value
+        const groupByDate = data.reduce((acc, record) => {
+            const date = record.createdAt.toISOString().split('T')[0]
+            if (!acc[date] || acc[date].createdAt < record.createdAt) {
+                acc[date] = record
+            }
+            return acc
+        }, {})
+
+        const latestRecordPerDay = Object.values(groupByDate)
+
+        return res.status(200).json(latestRecordPerDay);
 
     } catch (err) {
+        console.log(err)
         return res.status(500).send(err)
     }
 }

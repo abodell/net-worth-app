@@ -11,7 +11,7 @@ import {
     Legend,
   } from 'chart.js';
   
-  ChartJS.register(
+ChartJS.register(
     CategoryScale,
     LinearScale,
     PointElement,
@@ -19,16 +19,40 @@ import {
     Title,
     Tooltip,
     Legend
-  );
+);
 
-const LineChart = ({secondary}) => {
+function transformUserData(userData) {
+    const labels = userData.map(item => new Date(item.createdAt).toLocaleDateString());
+    const values = userData.map(item => item.balance);
+
+    return {
+        labels: labels,
+        datasets: [
+            {
+            data: values,
+            backgroundColor: [
+                "rgba(75,192,140,1)",
+                "&quot;#ecf0f1",
+                "#50AF95",
+                "#f3ba2f",
+                "#2a71d0"
+            ],
+            borderColor: "#FF7F50",
+            borderWidth: 2
+            }
+        ]
+    }
+}
+const LineChart = ({secondary, userData}) => {
 
     const themeColor = secondary ? "#D3D3D3" : "black"
+
+    const chartData = userData && userData.length > 0 ? transformUserData(userData) : createChartData()
 
     return (
         <div className="w-full h-full">
             <Line 
-                data={createChartData()}
+                data={chartData}
                 options={{
                     animation: {
                         duration: 2000,

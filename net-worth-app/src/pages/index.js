@@ -19,12 +19,13 @@ export default function Home() {
   const { theme, setTheme } = useTheme();
   const { data: currentUser } = useCurrentUser();
   const [hasAccessToken, setHasAccessToken] = useState(false)
-  const [netWorthData, setNetWorthData] = useState(null);
+  const [netWorthData, setNetWorthData] = useState([]);
   /* 
   I need to check if the currentUser has an access token, if it does we render net worth / chart rather than the button
   */
 
   const linkTokenFetched = useRef(false);
+  const isDarkMode = theme === 'dark'
 
   const onSuccess = useCallback(async (publicToken) => {
     try {
@@ -85,7 +86,7 @@ export default function Home() {
         const res = await axios.get('/api/get-account-data', {
           params: {id: currentUser.id}
         });
-        setNetWorthData(res);
+        setNetWorthData(res.data);
       }
     }
     fetchUserAccountData();
@@ -95,14 +96,37 @@ export default function Home() {
     token: linkToken, 
     onSuccess
   });
-  // next thing to work on will be retrieving real user data and populating the chart with that if someone is signed in (priority)
 
+  const renderContent = () => {
+    if (!currentUser) {
+      return <LineChart secondary={isDarkMode} />
+    }
+
+    if (hasAccessToken) {
+      return <LineChart secondary={isDarkMode} userData={netWorthData || []}/>
+    }
+
+    return (
+      <Button
+        label="Connect your Bank Account" 
+        secondary={isDarkMode} 
+        onClick={() => {
+          if (linkToken && ready) open()
+        }}
+      />
+    )
+  }
+  // next thing to work on will be retrieving real user data and populating the chart with that if someone is signed in (priority)
   return (
     <>
     <Header />
     <Layout>
-      {currentUser ? <h1 className="text-center text-xl font-semibold">Welcome, {currentUser.name}</h1> : null}
-      {currentUser && hasAccessToken ?  <LineChart secondary={theme === "dark"}></LineChart> : currentUser ? <Button label="Connect your Bank Account" secondary={theme === 'dark'} onClick={open}/> : <LineChart secondary={theme === "dark"}></LineChart>}
+      {currentUser && (
+        <h1 className="text-center text-xl font-semibold">
+          Welcome, {currentUser.name}
+        </h1>
+      )}
+      {renderContent()}
     </Layout>
     </>
   );
