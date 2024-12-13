@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         return res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 
-    const id = req.body.id;
+    const id = req.query.id;
     
     if (!id) {
         return res.status(400).json({

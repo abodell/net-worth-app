@@ -74,19 +74,29 @@ export default function Home() {
         const res = await axios.post('/api/save-account-data', {
           id: currentUser.id
         });
-        setNetWorthData(res.data)
+        // need to figure out why this is getting called more than once (not priority)
         localStorage.setItem('netWorthDataSaved', 'true');
       }
     }
     saveUserAccountData();
+
+    async function fetchUserAccountData() {
+      if (currentUser) {
+        const res = await axios.get('/api/get-account-data', {
+          params: {id: currentUser.id}
+        });
+        setNetWorthData(res);
+      }
+    }
+    fetchUserAccountData();
   }, [currentUser, linkToken]);
 
   const {open, ready} = usePlaidLink({
     token: linkToken, 
     onSuccess
   });
-  // next thing to work on will be retrieving real user data and populating the chart with that if someone is signed in
-  
+  // next thing to work on will be retrieving real user data and populating the chart with that if someone is signed in (priority)
+
   return (
     <>
     <Header />
