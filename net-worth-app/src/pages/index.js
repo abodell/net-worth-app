@@ -69,18 +69,6 @@ export default function Home() {
     }
     checkAccessToken();
 
-    async function saveUserAccountData() {
-      // save net worth info to database
-      if (currentUser && !localStorage.getItem('netWorthDataSaved', true)) {
-        const res = await axios.post('/api/save-account-data', {
-          id: currentUser.id
-        });
-        // need to figure out why this is getting called more than once (not priority)
-        localStorage.setItem('netWorthDataSaved', 'true');
-      }
-    }
-    saveUserAccountData();
-
     async function fetchUserAccountData() {
       if (currentUser) {
         const res = await axios.get('/api/get-account-data', {
@@ -116,7 +104,6 @@ export default function Home() {
       />
     )
   }
-  // next thing to work on will be retrieving real user data and populating the chart with that if someone is signed in (priority)
   return (
     <>
     <Header />

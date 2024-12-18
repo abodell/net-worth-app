@@ -1,10 +1,9 @@
 import { useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast'
-import { signIn } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import axios from 'axios'
 import useLoginModal from '@/hooks/useLoginModal'
 import useRegisterModal from '@/hooks/useRegisterModal'
-
 import Input from '@/components/Input'
 import Modal from '@/components/Modal'
 
@@ -21,16 +20,25 @@ const LoginModal = () => {
             setIsLoading(true);
             await signIn('credentials', {
                 email,
-                password
+                password,
+                redirect: false
             });
+            // save the user's account info
+            const session = await getSession()
+            if (session?.user?.id) {
+                const res = await axios.post('/api/save-account-data', {
+                    id: session.user.id
+                });
+            }
             toast.success('Logged in!');
             loginModal.onClose();
         } catch (err) {
+            console.log(err)
             toast.error('Something went wrong!')
         } finally {
             setIsLoading(false);
         }
-    })
+    }, [email, password, loginModal])
 
     const onToggle = useCallback( () => {
         if (isLoading) return;
