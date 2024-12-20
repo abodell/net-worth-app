@@ -52,7 +52,10 @@ export default function Home() {
   // what happens if we pick two accounts? sort chart on each account?
   // keep looking for bugs
 
-// need to figure out why these api calls are being sent in succession
+  // the main code eventually needs to be moved to the layout component
+  // then the index.js file will contain a layout component with its children
+  // if any of the child components have static props, we would fetch those here with getStaticProps
+
   useEffect(() => {
     async function initialize() {
       if (!currentUser || isLoading || linkTokenFetched.current) return;

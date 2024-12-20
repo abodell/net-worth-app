@@ -13,7 +13,7 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 export default function Header() {
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
-    const { data: currentUser } = useCurrentUser();
+    const { data: currentUser, isLoading } = useCurrentUser();
     const loginModal = useLoginModal();
 
     useEffect( () => {
@@ -27,7 +27,7 @@ export default function Header() {
             signOut();
             localStorage.clear();
         }
-    }, [loginModal])
+    }, [currentUser, loginModal])
     return (
         <div className="max-w-7xl mx-auto px-2 py-10 md:py-20">
             <div className="flex md:flex-row justify-between items-center">
