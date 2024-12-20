@@ -6,7 +6,7 @@ import PlaidAuth from '../components/PlaidAuth'
 import { TypeAnimation } from 'react-type-animation';
 
 const Layout = ({ children }) => {
-    const [linkToken, setLinkToken] = useState();
+    /*const [linkToken, setLinkToken] = useState();
     const [publicToken, setPublicToken] = useState();
 
     const onSuccess = useCallback(async (publicToken) => {
@@ -29,7 +29,7 @@ const Layout = ({ children }) => {
     const {open, ready} = usePlaidLink({
         token: linkToken, 
         onSuccess
-    });
+    });*/
 
     return (
         <div className="max-w-7xl mx-auto px-2 py-5 md:py-10 flex flex-col items-center justify-center gap-12">

@@ -17,7 +17,7 @@ export default function Home() {
   const [publicToken, setPublicToken] = useState();
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
-  const { data: currentUser } = useCurrentUser();
+  const { data: currentUser, isLoading} = useCurrentUser();
   const [hasAccessToken, setHasAccessToken] = useState(false)
   const [netWorthData, setNetWorthData] = useState([]);
   /* 
@@ -47,38 +47,34 @@ export default function Home() {
     }
   }, [currentUser]);
 
-  useEffect( () => {
-    setMounted(true)
-    async function getLinkToken() {
-      if (!linkTokenFetched.current) {
-        try {
-          const response = await axios.post('/api/create-link-token');
-          setLinkToken(response.data.link_token);
-          linkTokenFetched.current = true
-        } catch (err) {
-          console.log(err.response);
+  // this is close to functioning how I want it to, but I need to follow best practices, look into adding stock portfolio
+  // fix where sign out doesn't work on first click 
+  // what happens if we pick two accounts? sort chart on each account?
+  // keep looking for bugs
+
+// need to figure out why these api calls are being sent in succession
+  useEffect(() => {
+    async function initialize() {
+      if (!currentUser || isLoading || linkTokenFetched.current) return;
+
+      try {
+        const response = await axios.post('/api/create-link-token');
+        setLinkToken(response.data.link_token);
+        linkTokenFetched.current = true;
+
+        if (currentUser.hasAccessToken) {
+          const res = await axios.get('/api/get-account-data', {
+            params: { id: currentUser.id },
+          });
+          setNetWorthData(res.data);
         }
+      } catch (err) {
+        console.log(err.response);
       }
     }
-    getLinkToken();
 
-    async function checkAccessToken() {
-      if (currentUser) {
-        setHasAccessToken(currentUser.hasAccessToken)
-      }
-    }
-    checkAccessToken();
-
-    async function fetchUserAccountData() {
-      if (currentUser) {
-        const res = await axios.get('/api/get-account-data', {
-          params: {id: currentUser.id}
-        });
-        setNetWorthData(res.data);
-      }
-    }
-    fetchUserAccountData();
-  }, [currentUser, linkToken]);
+    initialize();
+  }, [currentUser, isLoading]);
 
   const {open, ready} = usePlaidLink({
     token: linkToken, 
@@ -90,7 +86,7 @@ export default function Home() {
       return <LineChart secondary={isDarkMode} />
     }
 
-    if (hasAccessToken) {
+    if (currentUser.hasAccessToken) {
       return <LineChart secondary={isDarkMode} userData={netWorthData || []}/>
     }
 
