@@ -54,6 +54,24 @@ export default async function handler(req, res) {
         }
 
     } catch (err) {
-        return res.status(500).send(err)
+        console.log(err.response.data)
+        if (err.response?.data) {
+            const { error_code, error_message, error_type } = err.response.data
+            return res.status(500).json({
+                error: {
+                    code: error_code || "UNKNOWN ERROR",
+                    error_message: error_message || "An unknown error occurred",
+                    error_type: error_type || "UNKNOWN_TYPE"
+                }
+            })
+        }
+        
+        return res.status(500).json({
+            error: {
+                code: "INTERNAL_SERVER_ERROR",
+                message: "An internal server error occurred.",
+                type: "SERVER_ERROR",
+            },
+        });
     }
 }

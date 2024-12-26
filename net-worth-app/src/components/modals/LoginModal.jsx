@@ -23,15 +23,13 @@ const LoginModal = () => {
                 password,
                 redirect: false
             });
+            toast.success('Logged in!');
+            loginModal.onClose();
             // save the user's account info
             const session = await getSession()
             if (session?.user?.id) {
-                const res = await axios.post('/api/save-account-data', {
-                    id: session.user.id
-                });
+                fetchPlaidData(session?.user?.id)
             }
-            toast.success('Logged in!');
-            loginModal.onClose();
         } catch (err) {
             console.log(err)
             toast.error('Something went wrong!')
@@ -45,6 +43,21 @@ const LoginModal = () => {
         loginModal.onClose();
         registerModal.onOpen();
     }, [loginModal, registerModal])
+
+    const fetchPlaidData = async (userID) => {
+        try {
+            const res = await axios.post('/api/save-account-data', {id: userID});
+            toast.success('Plaid data fetched successfully!')
+        } catch (err) {
+            console.error(err)
+
+            if (err.response?.data?.error?.code == 'ITEM_LOGIN_REQUIRED') {
+                toast.error('Your plaid account requires re-authentication!')
+            } else {
+                toast.error('Error fetching data from Plaid')
+            }
+        }
+    }
 
     const body = (
         <div className="flex flex-col gap-4">

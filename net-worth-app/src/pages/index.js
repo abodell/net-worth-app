@@ -20,9 +20,6 @@ export default function Home() {
   const { data: currentUser, isLoading} = useCurrentUser();
   const [hasAccessToken, setHasAccessToken] = useState(false)
   const [netWorthData, setNetWorthData] = useState([]);
-  /* 
-  I need to check if the currentUser has an access token, if it does we render net worth / chart rather than the button
-  */
 
   const linkTokenFetched = useRef(false);
   const isDarkMode = theme === 'dark'
@@ -48,7 +45,6 @@ export default function Home() {
   }, [currentUser]);
 
   // this is close to functioning how I want it to, but I need to follow best practices, look into adding stock portfolio
-  // fix where sign out doesn't work on first click 
   // what happens if we pick two accounts? sort chart on each account?
   // keep looking for bugs
 

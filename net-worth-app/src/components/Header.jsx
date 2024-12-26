@@ -25,7 +25,7 @@ export default function Header() {
             loginModal.onOpen();
         } else  {
             signOut();
-            localStorage.clear();
+            localStorage.clear(); // set up a storage utility function?
         }
     }, [currentUser, loginModal])
     return (
