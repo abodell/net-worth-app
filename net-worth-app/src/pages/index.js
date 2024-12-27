@@ -7,13 +7,14 @@ import Header from '@/components/Header';
 import Button from '@/components/Button';
 import Layout from '@/components/Layout';
 import useCurrentUser from '@/hooks/useCurrentUser';
+import { useLinkToken } from '@/hooks/useLinkToken';
 import { useTheme } from 'next-themes'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const [linkToken, setLinkToken] = useState();
+  const { linkToken, fetchLinkToken } = useLinkToken();
   const [publicToken, setPublicToken] = useState();
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -57,8 +58,7 @@ export default function Home() {
       if (!currentUser || isLoading || linkTokenFetched.current) return;
 
       try {
-        const response = await axios.post('/api/create-link-token');
-        setLinkToken(response.data.link_token);
+        fetchLinkToken();
         linkTokenFetched.current = true;
 
         if (currentUser.hasAccessToken) {

@@ -1,8 +1,10 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { toast } from 'react-hot-toast'
-import { signIn, getSession } from 'next-auth/react';
+import { signIn, useSession, getSession } from 'next-auth/react';
 import axios from 'axios'
 import useLoginModal from '@/hooks/useLoginModal'
+import { useLinkToken } from '@/hooks/useLinkToken'
+import { usePlaidLink } from 'react-plaid-link';
 import useRegisterModal from '@/hooks/useRegisterModal'
 import Input from '@/components/Input'
 import Modal from '@/components/Modal'
@@ -14,6 +16,29 @@ const LoginModal = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    const { linkToken, fetchLinkToken } = useLinkToken();
+    const { data: session } = useSession()
+
+    const onPlaidSuccess = useCallback(async (publicToken) => {
+        try {
+            const accessToken = await axios.post('/api/exchange-public-token', {public_token: publicToken});
+            const session = await getSession();
+            await axios.put('/api/save-access-token', {
+                access_token: accessToken.data.access_token,
+                user_id: session?.user?.id
+            });
+            toast.success('Re-authenticated successfully!')
+        } catch (err) {
+            console.error(err);
+            toast.error('Failed to re-authenticate!')
+        }
+    }, [session?.user?.id])
+
+    const {open, ready} = usePlaidLink({
+        token: linkToken,
+        onSuccess: onPlaidSuccess
+    })
 
     const onSubmit = useCallback(async () => {
         try {
@@ -52,12 +77,27 @@ const LoginModal = () => {
             console.error(err)
 
             if (err.response?.data?.error?.code == 'ITEM_LOGIN_REQUIRED') {
-                toast.error('Your plaid account requires re-authentication!')
+                try {
+                    // need to get the access token here
+                    const accessToken = await axios.post('/api/get-access-token', {
+                        user_id: userID
+                    })
+                    await fetchLinkToken(accessToken.data);
+                } catch (fetchErr) {
+                    console.error('Failed to fetch link token for update:', fetchErr);
+                    toast.error('Failed to re-authenticate with Plaid!');
+                }
             } else {
                 toast.error('Error fetching data from Plaid')
             }
         }
     }
+
+    useEffect( () => {
+        if (linkToken && ready) {
+            open();
+        }
+    }, [linkToken, ready, open])
 
     const body = (
         <div className="flex flex-col gap-4">
