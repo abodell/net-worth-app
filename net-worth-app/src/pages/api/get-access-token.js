@@ -1,5 +1,9 @@
 import db from "@/lib/prismadb";
 
+/* 
+This API route accepts a user_id and returns the plaid access token for the user
+*/
+
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         res.setHeader("Allow", ["POST"]);
@@ -17,6 +21,4 @@ export default async function handler(req, res) {
         console.error('Error fetching access token:', err);
         return res.status(404).send(err);
     }
-
-
 }

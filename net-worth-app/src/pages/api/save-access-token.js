@@ -1,7 +1,7 @@
 import db from '@/lib/prismadb'
 
 /* 
-Accepts an access token and a user id
+Accepts an access token and a user id and saves the access token to the associated user in the database
 */
 
 export default async function handler(req, res) {

@@ -2,7 +2,6 @@ import axios from 'axios';
 import LineChart from '@/components/LineChart';
 import { usePlaidLink } from 'react-plaid-link';
 import { useState, useEffect, useCallback, useRef } from 'react'
-import PlaidAuth from '../components/PlaidAuth'
 import Header from '@/components/Header';
 import Button from '@/components/Button';
 import Layout from '@/components/Layout';
@@ -25,6 +24,7 @@ export default function Home() {
   const linkTokenFetched = useRef(false);
   const isDarkMode = theme === 'dark'
 
+// this callback handles the Plaid Link Flow and saves the access token to the database
   const onSuccess = useCallback(async (publicToken) => {
     try {
       setPublicToken(publicToken);
@@ -45,14 +45,7 @@ export default function Home() {
     }
   }, [currentUser]);
 
-  // this is close to functioning how I want it to, but I need to follow best practices, look into adding stock portfolio
-  // what happens if we pick two accounts? sort chart on each account?
-  // keep looking for bugs
-
-  // the main code eventually needs to be moved to the layout component
-  // then the index.js file will contain a layout component with its children
-  // if any of the child components have static props, we would fetch those here with getStaticProps
-
+// this loads the user's data from the database so the chart can be populated
   useEffect(() => {
     async function initialize() {
       if (!currentUser || isLoading || linkTokenFetched.current) return;
@@ -73,13 +66,14 @@ export default function Home() {
     }
 
     initialize();
-  }, [currentUser, isLoading]);
+  }, [currentUser, isLoading, fetchLinkToken]);
 
   const {open, ready} = usePlaidLink({
     token: linkToken, 
     onSuccess
   });
 
+  // this determines what content will be rendered based on the conditions of the user (or if no one is signed in)
   const renderContent = () => {
     if (!currentUser) {
       return <LineChart secondary={isDarkMode} />

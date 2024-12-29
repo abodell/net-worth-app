@@ -36,11 +36,13 @@ export default function Header() {
                     { mounted && <Button label={currentUser ? "Sign Out" : "Login"} secondary={theme === 'dark'} onClick={onClick}/> }
                 </div>
 
-                <Link href="/">
-                    <h1 className="break-all font-semibold text-4xl">
-                        Wealth Wise
-                    </h1>
-                </Link>
+                <div>
+                    <Link href="/">
+                        <h1 className="break-all font-semibold text-4xl">
+                            Wealth Wise
+                        </h1>
+                    </Link>
+                </div>
 
                 <div className="space-x-4 flex flex-row items-center">
                     <a href='https://github.com/abodell'>

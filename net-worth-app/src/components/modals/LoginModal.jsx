@@ -33,7 +33,7 @@ const LoginModal = () => {
             console.error(err);
             toast.error('Failed to re-authenticate!')
         }
-    }, [session?.user?.id])
+    })
 
     const {open, ready} = usePlaidLink({
         token: linkToken,
@@ -61,13 +61,13 @@ const LoginModal = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [email, password, loginModal])
+    }, [email, password, loginModal, fetchPlaidData])
 
     const onToggle = useCallback( () => {
         if (isLoading) return;
         loginModal.onClose();
         registerModal.onOpen();
-    }, [loginModal, registerModal])
+    }, [loginModal, registerModal, isLoading])
 
     const fetchPlaidData = async (userID) => {
         try {

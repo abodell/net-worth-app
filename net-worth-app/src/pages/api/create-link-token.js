@@ -1,5 +1,6 @@
 import { plaidClient } from '../../lib/plaidClient'
 
+// this API route creates a link token for the Plaid Link Flow
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", ["POST"]);

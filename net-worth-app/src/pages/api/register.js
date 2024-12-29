@@ -2,6 +2,8 @@ import bycrpt from 'bcrypt'
 
 import db from '@/lib/prismadb'
 
+// this API route registers a new user in the database with the provided email, name, and password
+
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).end();

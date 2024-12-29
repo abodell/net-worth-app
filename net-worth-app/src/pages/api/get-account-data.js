@@ -1,7 +1,7 @@
 import db from '@/lib/prismadb'
 
 /* 
-Accepts a user id
+Accepts a user id and returns the user's account balance for the last 30 days
 */
 
 export default async function handler(req, res) {

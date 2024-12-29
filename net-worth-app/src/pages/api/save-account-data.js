@@ -2,7 +2,8 @@ import db from '@/lib/prismadb'
 import { plaidClient } from '../../lib/plaidClient'
 
 /*
-Accepts a user id
+This API route accepts a user_id and it to create an entry in the Accounts schema for the user after account data is fetched from Plaid.
+Currently, the app is generating a random value for the account rather than using the actual values from Plaid.
 */
 
 export default async function handler(req, res) {

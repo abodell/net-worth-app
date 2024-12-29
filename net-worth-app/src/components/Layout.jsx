@@ -1,41 +1,9 @@
-import Button from '@/components/Button';
-import axios from 'axios';
-import { usePlaidLink } from 'react-plaid-link';
-import { useState, useEffect, useCallback } from 'react'
-import PlaidAuth from '../components/PlaidAuth'
 import { TypeAnimation } from 'react-type-animation';
 
 const Layout = ({ children }) => {
-    /*const [linkToken, setLinkToken] = useState();
-    const [publicToken, setPublicToken] = useState();
-
-    const onSuccess = useCallback(async (publicToken) => {
-        setPublicToken(publicToken);
-        const accessToken = await axios.post('/api/exchange-public-token', {public_token: publicToken});
-    });
-
-    useEffect( () => {
-        async function fetch() {
-            try {
-                const response = await axios.post('/api/create-link-token');
-                setLinkToken(response.data.link_token);
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        fetch()
-    }, [])
-
-    const {open, ready} = usePlaidLink({
-        token: linkToken, 
-        onSuccess
-    });*/
-
+    // layout component that holds the main content of the app
     return (
         <div className="max-w-7xl mx-auto px-2 py-5 md:py-10 flex flex-col items-center justify-center gap-12">
-        { /*
-        - Look into connecting two accounts
-        */}
             <div className="flex md:flex-col align-middle text-center gap-24 text-3xl font-semibold">
                 <TypeAnimation
                 sequence={[

@@ -1,5 +1,6 @@
 import { plaidClient } from '../../lib/plaidClient'
 
+// this API route is used to exchange the public token for an access token in the Plaid Link Flow
 export default async function handler(req, res) {
     if (req.method !== "POST") {
         res.setHeader("Allow", ["POST"]);

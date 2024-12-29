@@ -11,7 +11,7 @@ function PlaidAuth( { publicToken } ) {
             setAccount(auth.data.numbers.ach[0]);
         }
         fetchData();
-    }, []);
+    }, [publicToken]);
 
     return account && 
         <>

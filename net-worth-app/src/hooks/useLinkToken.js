@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react"
 import axios from "axios"
 
+// this hook fetches the Plaid Link token from the server
 export const useLinkToken = () => {
     const [linkToken, setLinkToken] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
