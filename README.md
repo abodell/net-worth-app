@@ -1,38 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Net Worth Tracker
 
-## Getting Started
+Welcome to **Net Worth Tracker**, an app designed to help you manage your finances and track your net worth seamlessly. This app is currently in **development** and operating in **Plaid's sandbox environment**, meaning all data is simulated and no real banking information is used.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## 🌐 Access the App
+You can visit the app here:
+[Net Worth Tracker](https://net-worth-5q7zj6gij-abodells-projects.vercel.app/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## ✨ Features
+- **Secure Login**: Sign in with a test email and password to experience the app’s functionality.
+- **Plaid Integration**: Connect a simulated bank account to view your account balances and track your net worth.
+- **Sandbox Environment**: All account data is generated with random values for testing purposes.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+---
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## 🛠 How to Use the App
+1. Visit the app link: [Net Worth Tracker](https://net-worth-5q7zj6gij-abodells-projects.vercel.app/).
+2. Log in using the following test credentials:
+   - **Email**: `testing@email.com`
+   - **Password**: `testing`
+3. Once logged in, you can:
+   - Connect a simulated bank account (only one account can be connected at the moment).
+   - View your generated account balance.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+---
 
-## Learn More
+## 🚀 Upcoming Updates
+We are actively working on updates to enhance the app's functionality. Here’s what you can expect in the near future:
+- Ability to connect multiple accounts.
+- Improved user interface for a better experience.
+- Enhanced features to help you track and analyze your net worth.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔒 Important Notes
+- The app is currently in **development** and operates within **Plaid's sandbox environment**.
+- **No real banking information** is used or stored.
+- All account balances and data are **randomly generated**.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🤝 Contributions
+We welcome feedback and suggestions to improve the app! Feel free to reach out with your ideas or report any issues.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Thank you for trying out Net Worth Tracker. We’re excited to bring you more features soon!
